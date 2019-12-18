@@ -60,4 +60,32 @@ class EventControllerTests {
             .andExpect(jsonPath("free").value(Matchers.not(true)))
             .andExpect(jsonPath("eventStatus").value(EventStatus.DRAFT))
     }
+
+    @Test
+    fun `create event bad request`() {
+        val event = Event(
+            id = 100,
+            name = "Spring",
+            description = "Rest api with Spring",
+            beginEnrollmentDateTime = LocalDateTime.of(2019, 12, 18, 15, 54),
+            closeEnrollmentDateTime = LocalDateTime.of(2019, 12, 20, 15, 54),
+            beginEventDateTime = LocalDateTime.of(2019, 12, 21, 15, 54),
+            endEventDateTime = LocalDateTime.of(2019, 12, 21, 15, 54),
+            basePrice = 100,
+            maxPrice = 200,
+            limitOfEnrollment = 100,
+            location = "강남역",
+            free = true,
+            offline = false,
+            eventStatus = EventStatus.PUBLISHED
+        )
+
+        mockMvc.perform(post("/api/events/")
+            .contentType(MediaType.APPLICATION_JSON_UTF8)
+            .accept(MediaTypes.HAL_JSON)
+            .content(objectMapper.writeValueAsString(event)))
+            .andDo(print())
+            .andExpect(status().isBadRequest)
+
+    }
 }
