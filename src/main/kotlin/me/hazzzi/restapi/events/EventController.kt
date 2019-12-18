@@ -13,11 +13,29 @@ import org.springframework.web.bind.annotation.RequestMapping
 class EventController constructor(
     val eventRepository: EventRepository
 ){
-
     @PostMapping
-    fun createEvent(@RequestBody event: Event): ResponseEntity<Event> {
+    fun createEvent(@RequestBody eventDto: EventDto): ResponseEntity<Event> {
+        val event = Event(
+            id = null,
+            name = eventDto.name,
+            description = eventDto.description,
+            beginEnrollmentDateTime = eventDto.beginEnrollmentDateTime,
+            closeEnrollmentDateTime = eventDto.closeEnrollmentDateTime,
+            beginEventDateTime = eventDto.beginEventDateTime,
+            endEventDateTime = eventDto.endEventDateTime,
+            basePrice = eventDto.basePrice,
+            maxPrice = eventDto.maxPrice,
+            limitOfEnrollment = eventDto.limitOfEnrollment,
+            location = eventDto.location,
+            free = null,
+            offline = null
+        )
         val newEvent = eventRepository.save(event)
+
+        // /api/events/10
         val createdUri = linkTo(EventController::class.java).slash(newEvent.id).toUri()
+
+        // response 헤더에 해당 정보를 담고, 바디에 저장한 event 내려줌
         return ResponseEntity.created(createdUri).body(event)
     }
 }
