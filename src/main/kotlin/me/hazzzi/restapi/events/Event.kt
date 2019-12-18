@@ -7,7 +7,7 @@ import javax.persistence.*
 data class Event(
     @Id
     @GeneratedValue
-    var id: Int,
+    var id: Int?,
     var name: String,
     var description: String,
     var beginEnrollmentDateTime: LocalDateTime,
@@ -18,9 +18,9 @@ data class Event(
     var basePrice: Int? = null,
     var maxPrice: Int? = null,
     var limitOfEnrollment: Int,
-    var offline: Boolean,
-    var free: Boolean,
+    var offline: Boolean?,
+    var free: Boolean?,
     @Enumerated(EnumType.STRING)
-    var eventStatus: EventStatus
+    var eventStatus: EventStatus = EventStatus.DRAFT
 )
 
