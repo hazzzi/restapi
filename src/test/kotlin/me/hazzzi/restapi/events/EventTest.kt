@@ -1,5 +1,10 @@
 package me.hazzzi.restapi.events
 
-import org.junit.Assert.*
+import org.junit.Test
 
-class EventTest
+class EventTest {
+
+    @Test
+    fun builder() {
+    }
+}

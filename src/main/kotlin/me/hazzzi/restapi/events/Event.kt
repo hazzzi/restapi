@@ -1,25 +1,26 @@
 package me.hazzzi.restapi.events
 
 import java.time.LocalDateTime
+import javax.persistence.*
 
-
+@Entity
 data class Event(
-        var id: Int,
-        var name: String,
-        var description: String,
-        var beginEnrollmentDateTime: LocalDateTime,
-        var closeEnrollmentDateTime: LocalDateTime,
-        var beginEventDateTime: LocalDateTime,
-        var endEventDateTime: LocalDateTime,
-        var location: String? = "",
-        var basePrice: Int? = 0,
-        var maxPrice: Int? = 0,
-        var limitOfEnrollment: Int,
-        var offline: Boolean,
-        var free: Boolean,
-        var eventStatus: EventStatus
+    @Id
+    @GeneratedValue
+    var id: Int,
+    var name: String,
+    var description: String,
+    var beginEnrollmentDateTime: LocalDateTime,
+    var closeEnrollmentDateTime: LocalDateTime,
+    var beginEventDateTime: LocalDateTime,
+    var endEventDateTime: LocalDateTime,
+    var location: String? = null,
+    var basePrice: Int? = null,
+    var maxPrice: Int? = null,
+    var limitOfEnrollment: Int,
+    var offline: Boolean,
+    var free: Boolean,
+    @Enumerated(EnumType.STRING)
+    var eventStatus: EventStatus
 )
 
-enum class EventStatus {
-    DRAFT, PUBLISHED, BEGAN_ENROLLMENT, CLOSED_ENROLLMENT, STARTED, ENDED
-}
