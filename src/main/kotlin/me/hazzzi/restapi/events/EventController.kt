@@ -17,9 +17,9 @@ class EventController constructor(
     val eventValidator: EventValidator
 ) {
     @PostMapping
-    fun createEvent(@RequestBody @Valid eventDto: EventDto, errors: Errors): ResponseEntity<Event> {
+    fun createEvent(@RequestBody @Valid eventDto: EventDto, errors: Errors): ResponseEntity<Any> {
         if (errors.hasErrors()) {
-            return ResponseEntity.badRequest().build()
+            return ResponseEntity.badRequest().body(errors)
         }
         val event = Event(
             id = null,
@@ -38,8 +38,9 @@ class EventController constructor(
         )
 
         eventValidator.validate(eventDto, errors)
+
         if(errors.hasErrors()){
-            return ResponseEntity.badRequest().build()
+            return ResponseEntity.badRequest().body(errors)
         }
 
         val newEvent = eventRepository.save(event)
