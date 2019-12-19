@@ -96,4 +96,24 @@ class EventControllerTests {
             .content(objectMapper.writeValueAsString("")))
             .andExpect(status().isBadRequest)
     }
+
+    @Test
+    fun `create event bad request wrong input`() {
+        val eventDto = EventDto(
+            name = "Spring",
+            description = "Rest api with Spring",
+            beginEnrollmentDateTime = LocalDateTime.of(2019, 12, 18, 15, 54),
+            closeEnrollmentDateTime = LocalDateTime.of(2019, 12, 20, 15, 54),
+            beginEventDateTime = LocalDateTime.of(2019, 12, 21, 15, 54),
+            endEventDateTime = LocalDateTime.of(2019, 12, 21, 15, 54),
+            basePrice = 10000,
+            maxPrice = 200,
+            limitOfEnrollment = 100,
+            location = "강남역"
+        )
+        mockMvc.perform(post("/api/events")
+            .contentType(MediaType.APPLICATION_JSON_UTF8)
+            .content(objectMapper.writeValueAsString(eventDto)))
+            .andExpect(status().isBadRequest)
+    }
 }

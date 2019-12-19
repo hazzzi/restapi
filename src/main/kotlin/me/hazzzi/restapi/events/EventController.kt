@@ -13,7 +13,8 @@ import javax.validation.Valid
 @Controller
 @RequestMapping(value = "/api/events", produces = [MediaTypes.HAL_JSON_UTF8_VALUE])
 class EventController constructor(
-    val eventRepository: EventRepository
+    val eventRepository: EventRepository,
+    val eventValidator: EventValidator
 ) {
     @PostMapping
     fun createEvent(@RequestBody @Valid eventDto: EventDto, errors: Errors): ResponseEntity<Event> {
@@ -35,8 +36,13 @@ class EventController constructor(
             free = null,
             offline = null
         )
-        val newEvent = eventRepository.save(event)
 
+        eventValidator.validate(eventDto, errors)
+        if(errors.hasErrors()){
+            return ResponseEntity.badRequest().build()
+        }
+
+        val newEvent = eventRepository.save(event)
         // /api/events/10
         val createdUri = linkTo(EventController::class.java).slash(newEvent.id).toUri()
 
