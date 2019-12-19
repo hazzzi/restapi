@@ -1,6 +1,7 @@
 package me.hazzzi.restapi.events
 
 import java.time.LocalDateTime
+import javax.validation.constraints.Min
 
 data class EventDto(
     var name: String,
@@ -10,7 +11,10 @@ data class EventDto(
     var beginEventDateTime: LocalDateTime,
     var endEventDateTime: LocalDateTime,
     var location: String? = null,
+    @Min(0)
     var basePrice: Int? = null,
+    @Min(0)
     var maxPrice: Int? = null,
+    @Min(0)
     var limitOfEnrollment: Int
 )

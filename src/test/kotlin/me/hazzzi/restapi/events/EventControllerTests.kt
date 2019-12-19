@@ -88,4 +88,12 @@ class EventControllerTests {
             .andExpect(status().isBadRequest)
 
     }
+
+    @Test
+    fun `create event bad request empty input`() {
+        mockMvc.perform(post("/api/events")
+            .contentType(MediaType.APPLICATION_JSON_UTF8)
+            .content(objectMapper.writeValueAsString("")))
+            .andExpect(status().isBadRequest)
+    }
 }
