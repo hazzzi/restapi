@@ -29,7 +29,7 @@ class EventControllerTests {
     lateinit var objectMapper: ObjectMapper
 
     @Test
-    fun createEvent() {
+    fun `정상적으로 이벤트를 생성하는 테스트`() {
         val event = Event(
             id = 100,
             name = "Spring",
@@ -62,7 +62,7 @@ class EventControllerTests {
     }
 
     @Test
-    fun `create event bad request`() {
+    fun `입력 받을 수 없는 값을 사용한 경우, bad request`() {
         val event = Event(
             id = 100,
             name = "Spring",
@@ -90,7 +90,7 @@ class EventControllerTests {
     }
 
     @Test
-    fun `create event bad request empty input`() {
+    fun `입력 값이 비어있는 경우, bad request`() {
         mockMvc.perform(post("/api/events")
             .contentType(MediaType.APPLICATION_JSON_UTF8)
             .content(objectMapper.writeValueAsString("")))
@@ -98,7 +98,7 @@ class EventControllerTests {
     }
 
     @Test
-    fun `create event bad request wrong input`() {
+    fun `입력 값이 잘못된 경우, bad request`() {
         val eventDto = EventDto(
             name = "Spring",
             description = "Rest api with Spring",
