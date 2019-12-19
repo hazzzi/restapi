@@ -45,9 +45,12 @@ class EventController constructor(
         event.update()
         val newEvent = eventRepository.save(event)
         // /api/events/10
-        val createdUri = linkTo(EventController::class.java).slash(newEvent.id).toUri()
-
+        val selfLinkBuilder = linkTo(EventController::class.java).slash(newEvent.id)
+        val createdUri = selfLinkBuilder.toUri()
         // response 헤더에 해당 정보를 담고, 바디에 저장한 event 내려줌
-        return ResponseEntity.created(createdUri).body(event)
+        val eventResource = EventResource(event) // heteoas 적용
+        eventResource.add(linkTo(EventController::class.java).withRel("query-events"))
+        eventResource.add(selfLinkBuilder.withRel("update-event"))
+        return ResponseEntity.created(createdUri).body(eventResource)
     }
 }
