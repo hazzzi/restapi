@@ -1,7 +1,6 @@
 package me.hazzzi.restapi.events
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import org.hamcrest.Matchers
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
@@ -30,8 +29,7 @@ class EventControllerTests {
 
     @Test
     fun `정상적으로 이벤트를 생성하는 테스트`() {
-        val event = Event(
-            id = 100,
+        val event = EventDto(
             name = "Spring",
             description = "Rest api with Spring",
             beginEnrollmentDateTime = LocalDateTime.of(2019, 12, 18, 15, 54),
@@ -41,10 +39,7 @@ class EventControllerTests {
             basePrice = 100,
             maxPrice = 200,
             limitOfEnrollment = 100,
-            location = "강남역",
-            free = true,
-            offline = false,
-            eventStatus = EventStatus.PUBLISHED
+            location = "강남역"
         )
 
         mockMvc.perform(post("/api/events/")
@@ -56,8 +51,8 @@ class EventControllerTests {
             .andExpect(jsonPath("id").exists())
             .andExpect(header().exists(HttpHeaders.LOCATION))
             .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaTypes.HAL_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("id").value(Matchers.not(100)))
-            .andExpect(jsonPath("free").value(Matchers.not(true)))
+            .andExpect(jsonPath("offline").value(true))
+            .andExpect(jsonPath("free").value(false))
             .andExpect(jsonPath("eventStatus").value(EventStatus.DRAFT))
     }
 

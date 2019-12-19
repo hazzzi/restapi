@@ -5,6 +5,7 @@ import org.junit.Test
 class EventTest {
 
     @Test
-    fun builder() {
+    fun `free test`() {
+        val event : Event
     }
 }

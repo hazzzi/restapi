@@ -22,5 +22,11 @@ data class Event(
     var free: Boolean?,
     @Enumerated(EnumType.STRING)
     var eventStatus: EventStatus = EventStatus.DRAFT
-)
+) {
+    fun update() {
+        this.free = this.basePrice == 0 && this.maxPrice == 0
+
+        this.offline = !(this.location == null || this.location.isEmpty())
+    }
+}
 

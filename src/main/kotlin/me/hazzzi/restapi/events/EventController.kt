@@ -42,7 +42,7 @@ class EventController constructor(
         if(errors.hasErrors()){
             return ResponseEntity.badRequest().body(errors)
         }
-
+        event.update()
         val newEvent = eventRepository.save(event)
         // /api/events/10
         val createdUri = linkTo(EventController::class.java).slash(newEvent.id).toUri()
